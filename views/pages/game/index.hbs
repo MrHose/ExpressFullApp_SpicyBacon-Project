@@ -1,0 +1,44 @@
+<div class="container">
+    <h1>Spicy Bacon Game</h1>
+    <hr>
+    <div class="row">
+        <div class="col-5">
+            <h2>Actor to start</h2>
+            <form action="/game/actor" method="POST" class="search-form" id="start-actor-form">
+                <label for="name">Actor search:</label>
+                <input type="text" name="name" id="name">
+                <input hidden type="text" name="side" value="start">
+                <button type="submit">SEARCH</button>
+            </form>
+            <ul></ul>
+            {{#each searchResults}}
+            <li>
+                <a href="/game/actor/setStart">
+                <img src="{{image}}" alt="{{title}}-profile-picture"><h4>{{title}}</h4>
+                </a>
+            </li>
+            {{/each}}
+            </ul>
+        </div>
+        <div class="col-2">
+            <span>-></span>
+        </div>
+        <div class="col-5">
+            <h2>Actor to end</h2>
+            <form action="/game/actor" method="POST" class="search-form" id="end-actor-form">
+                <label for="name">Actor search:</label>
+                <input type="text" name="name" id="name">
+                <input hidden type="text" name="side" value="end">
+                <button type="submit">SEARCH</button>
+            </form>
+            {{#if endSearchResults}}
+            <li>
+                <a href="/game/actor/setEnd">
+                    <img src="{{image}}" alt="{{title}}-profile-picture">
+                    <h4>{{title}}</h4>
+                </a>
+            </li>
+            {{/if}}
+        </div>
+    </div>
+</div>
