@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const { isLoggedIn } = require('./../middlewares')
 
 const IMDbApp = require('../services/api-handler')
 const IMDb = new IMDbApp
@@ -11,6 +12,10 @@ let totalGameSearchResults = {
     start: [],
     end: []
 }
+
+router.get('/', isLoggedIn, (req, res) => {
+    res.render('pages/game/index')
+})
 
 //Search Actors
 router.post('/actor', (req, res) => {
@@ -66,7 +71,7 @@ router.get('/actor/:actorId/:side', (req, res) => {
 })
 
 //Search Movies
-router.post('/movie', (req, res) => {
+router.post('/movie', isLoggedIn, (req, res) => {
     const movieToSearch = req.body.name
     const searchTerm = movieToSearch
     const action = 'SearchMovie'
@@ -76,7 +81,7 @@ router.post('/movie', (req, res) => {
 })
 
 //Get specific actor by ID
-router.post('/actor/byId', (req, res) => {
+router.post('/actor/byId', isLoggedIn, (req, res) => {
     const actorId = req.body.actorId
     const searchTerm = actorId
     const action = 'Name'
@@ -86,7 +91,7 @@ router.post('/actor/byId', (req, res) => {
 })
 
 //Get specific movie by ID
-router.post('/movie/byId/', (req, res) => {
+router.post('/movie/byId/', isLoggedIn, (req, res) => {
     const movieId = req.body.movieId
     const searchTerm = movieId
     const action = 'Title'
@@ -96,13 +101,12 @@ router.post('/movie/byId/', (req, res) => {
 })
 
 //Get specific movie fullcast by ID
-// router.post('/movie/fullCast', (req, res) => {
-//     const movieId = req.body.movieId
-//     const searchTerm = movieId
-//     const action = 'FullCast'
-//     const options = ''
-//     const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
-//     res.redirect(fullUrl)
-// })
-
+router.post('/movie/fullCast', isLoggedIn, (req, res) => {
+    const movieId = req.body.movieId
+    const searchTerm = movieId
+    const action = 'FullCast'
+    const options = ''
+    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
+    res.redirect(fullUrl)
+})
 module.exports = router
