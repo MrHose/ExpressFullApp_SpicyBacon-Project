@@ -4,21 +4,26 @@
     <div class="row">
         <div class="col-5">
             <h2>Actor to start</h2>
+            {{#unless startActorId}}
             <form action="/game/actor" method="POST" class="search-form" id="start-actor-form">
                 <label for="name">Actor search:</label>
                 <input type="text" name="name" id="name">
                 <input hidden type="text" name="side" value="start">
                 <button type="submit">SEARCH</button>
             </form>
-            <ul></ul>
-            {{#each searchResults}}
+            <ul>
+            {{#each start}}
             <li>
-                <a href="/game/actor/setStart">
+                <a href="/game/gameId?startActorId={{id}}">
                 <img src="{{image}}" alt="{{title}}-profile-picture"><h4>{{title}}</h4>
                 </a>
             </li>
             {{/each}}
             </ul>
+            {{/unless}}
+            {{#if startActorId}}
+                <h2>Actor elegido: {{startActorId}}</h2>
+            {{/if}}
         </div>
         <div class="col-2">
             <span>-></span>
@@ -31,14 +36,16 @@
                 <input hidden type="text" name="side" value="end">
                 <button type="submit">SEARCH</button>
             </form>
-            {{#if endSearchResults}}
+            <ul>
+            {{#each end}}
             <li>
-                <a href="/game/actor/setEnd">
+                <a href="/game/gameId?endActorId={{id}}">
                     <img src="{{image}}" alt="{{title}}-profile-picture">
                     <h4>{{title}}</h4>
                 </a>
             </li>
-            {{/if}}
+            {{/each}}
+            </ul>
         </div>
     </div>
 </div>
