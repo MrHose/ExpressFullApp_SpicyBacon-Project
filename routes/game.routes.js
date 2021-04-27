@@ -5,70 +5,51 @@ const { isLoggedIn } = require('./../middlewares')
 const IMDbApp = require('../services/api-handler')
 const IMDb = new IMDbApp
 
-const Game = require('./../models/game.model')
-
-//Variable global
-let totalGameSearchResults = {
-    start: [],
-    end: []
-}
 
 //Game preparation
 router.get('/', isLoggedIn, (req, res) => {
     res.render('pages/game/index')
 })
 
-//Search Actors
-router.post('/actor', (req, res) => {
-    const actorToSearch = req.body.name
-    const side = req.body.side
+router.get('/begin', (req, res) => {
+    startActorId = req.query.startActorId
+    endActorId = req.query.endActorId
+    scoreToBeat = req.query.scoreToBeat
+    let startActor = ''
+    let endActor = ''
     IMDb
-        .searchActors(actorToSearch)
-        .then(response => {
-            const { data } = response
-            switch (side) {
-                case 'start':
-                    totalGameSearchResults.start = data.results
-                    break
-                case 'end':
-                    totalGameSearchResults.end = data.results
-                    break
-            }
-            res.render('pages/game/index', totalGameSearchResults)
+        .getActorById(startActorId)
+        .then(startResponse => {
+            startActor = startResponse.data
+            return IMDb.getActorById(endActorId)
         })
-        .catch(err => console.timeLog(err))
+        .then(endResponse => {
+            endActor = endResponse.data
+            res.render('pages/game/playArea', { startActor, endActor, scoreToBeat } )
+        })
+        .catch(err => console.log(err))
 })
 
-//
-router.get('/actor/:actorId/:side', (req, res) => {
-    const actorId = req.params.actorId
-    const side = req.params.side
-    console.log(totalGameSearchResults)
-    IMDb
-        .getActorById(actorId)
-        .then(response => {
-            const {
-                data
-            } = response
-            switch (side) {
-                case 'start':
-                    Game
-                        .create({ startActorId: actorId })
-                        .then(createdGame => {
-                            console.log(createdGame)
-                        })
-                    break
-                case 'end':
-                    Game
-                        .create({ endActorId: actorId })
-                        .then(createdGame => {
-                            console.log(createdGame)
-                        })
-                    break
-            }
-            res.render('pages/game/index', totalGameSearchResults)
-        })
-        .catch(err => console.timeLog(err))
+
+
+
+
+const urlStart = 'https://imdb-api.com/en/API/'
+const IMDbAPI_Key = process.env.IMDbAPI_Key
+
+//Testing
+router.get('/test', (req, res) => {
+    res.render('pages/game/test')
+})
+
+//Search Actors
+router.post('/actor', isLoggedIn, (req, res) => {
+    const actorToSearch = req.body.name
+    const searchTerm = actorToSearch
+    const action = 'SearchName'
+    const options = ''
+    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
+    res.redirect(fullUrl)
 })
 
 //Search Movies
@@ -110,4 +91,5 @@ router.post('/movie/fullCast', isLoggedIn, (req, res) => {
     const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
     res.redirect(fullUrl)
 })
+
 module.exports = router

@@ -1,0 +1,28 @@
+<div class="container">
+    <div id="progress-bar">
+        <div id="startActor">
+            {{#with startActor}}
+            <h1>0</h1>
+            <img src="{{image}}" alt="{{title}}-profile-pic">
+            <h5>{{name}}</h5>
+            {{/with}}
+        </div>
+
+        <div id="endActor">
+            <h1>{{scoreToBeat}}</h1>
+            {{#with endActor}}
+            <img src="{{image}}" alt="{{title}}-profile-pic">
+            <h5>{{name}}</h5>
+            {{/with}}
+        </div>
+    </div>
+    <div id="show-lists">
+        <ul>
+            {{#with startActor}}
+            {{#each castMovies}}
+            <li id="{{id}}"><a href="#"><span>| {{title}} </span></a></li>
+            {{/each}}
+            {{/with}}
+        </ul>
+    </div>
+</div>
