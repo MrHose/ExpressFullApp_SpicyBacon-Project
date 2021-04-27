@@ -8,7 +8,13 @@ const mongoose = require('mongoose')
 //User Profile (get)
 router.get('/', isLoggedIn, (req, res) => {
     currentUser = req.session.currentUser
-    res.render('pages/user/profile', currentUser)
+    User
+    .findById(currentUser._id)
+    .then(friends => {
+        res.render('pages/user/profile', { currentUser, friends })
+        console.log('yeeeeeee', )
+    })
+    .catch(err => console.log('Error!', err))
 })
 
 //All Users (get)
@@ -29,6 +35,8 @@ router.get('/allusers', isLoggedIn, (req, res) => {
 router.get('/details/:id', isLoggedIn, (req, res) => {
     currentUser = req.session.currentUser
     const { id } = req.params
+    console.log(id, currentUser._id)
+    if(id === currentUser._id) { res.render('pages/user/profile', currentUser)}
     User
         .findById(id)
         .then(theUser => res.render('pages/user/details', { theUser, currentUser }))
@@ -40,8 +48,14 @@ router.post('/addFriend/:id', isLoggedIn, (req, res) => {
     currentUser = req.session.currentUser
     const { id } = req.params
     currentUser.friends.push(id)
-    console.log(currentUser)
-    res.render('pages/user/profile', currentUser)
+    User
+    .findByIdAndUpdate(currentUser.id, { friends: currentUser.friends })
+    .then(() => {
+        console.log(currentUser.friends)
+        res.redirect('/user/')
+    })
+    
+    .catch(err => console.log('Error!', err)) 
 })
 
 module.exports = router

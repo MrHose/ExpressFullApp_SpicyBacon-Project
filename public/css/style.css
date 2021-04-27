@@ -5,4 +5,7 @@ body {
 .navbar {
   margin-bottom: 50px; }
 
+#error {
+  color: red; }
+
 /*# sourceMappingURL=style.css.map */
