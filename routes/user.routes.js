@@ -15,18 +15,14 @@ router.get('/', isLoggedIn, (req, res) => {
 router.get('/allusers', isLoggedIn, (req, res) => {
     currentUser = req.session.currentUser
     User
-    .find()
-    .then(allUsers => {
-
-        const otherUsers = allUsers.filter(elm => {
-            console.log('datooooosss', elm.id, currentUser._id)
-           return (elm.id !== currentUser._id)
-            
+        .find()
+        .then(allUsers => {
+            const otherUsers = allUsers.filter(elm => {
+            return elm.id !== currentUser._id  
+            })
+            res.render('pages/user/allusers', { otherUsers })
         })
-        res.render('pages/user/allusers', { otherUsers })
-    })
         .catch(err => console.log('Error!', err))
-
 })
 
 //User Details (get)
@@ -34,10 +30,9 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
     currentUser = req.session.currentUser
     const { id } = req.params
     User
-    .findById(id)
-    .then(theUser => res.render('pages/user/details', { theUser, currentUser }))
+        .findById(id)
+        .then(theUser => res.render('pages/user/details', { theUser, currentUser }))
         .catch(err => console.log('Error!', err))
-
 })
 
 //Add to Friends (post)

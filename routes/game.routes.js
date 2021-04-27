@@ -13,6 +13,7 @@ let totalGameSearchResults = {
     end: []
 }
 
+//Game preparation
 router.get('/', isLoggedIn, (req, res) => {
     res.render('pages/game/index')
 })
