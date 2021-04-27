@@ -9,4 +9,24 @@ body {
 
 #error {
   color: red;
+.searc-result-img{
+  height: 75px;
+  width: auto;
+}
+
+.search-result{
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+#progress-bar{
+  display: flex;
+  justify-content: space-between;
+}
+
+#progress-bar img{
+  height: 80px;
+  width: auto;
 }

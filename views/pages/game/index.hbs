@@ -3,49 +3,41 @@
     <hr>
     <div class="row">
         <div class="col-5">
-            <h2>Actor to start</h2>
-            {{#unless startActorId}}
-            <form action="/game/actor" method="POST" class="search-form" id="start-actor-form">
+            <h2>Actor to start:</h2>
+            <input hidden type="text" id="start-actorId">
+            <div class="start-search-group">
+                {{!-- ------- --}}
+                {{!-- CHOSEN ACTOR WILL GO HERE --}}
                 <label for="name">Actor search:</label>
-                <input type="text" name="name" id="name">
-                <input hidden type="text" name="side" value="start">
-                <button type="submit">SEARCH</button>
-            </form>
-            <ul>
-            {{#each start}}
-            <li>
-                <a href="/game/gameId?startActorId={{id}}">
-                <img src="{{image}}" alt="{{title}}-profile-picture"><h4>{{title}}</h4>
-                </a>
-            </li>
-            {{/each}}
-            </ul>
-            {{/unless}}
-            {{#if startActorId}}
-                <h2>Actor elegido: {{startActorId}}</h2>
-            {{/if}}
+                <input type="text" name="name" id="start-search-input" placeholder="Kevin Bacon">
+                <button id="start-search-button" class="search-button">SEARCH</button>
+                <ul id="start-search-results">
+                    {{!-- ------- --}}
+                    {{!-- SEARCH RESULTS GO HERE --}}
+                    {{!-- ------- --}}
+                </ul>
+                {{!-- ------- --}}
+            </div>
         </div>
-        <div class="col-2">
+        <div class="col-2" id="begin-button-space">
             <span>-></span>
         </div>
         <div class="col-5">
-            <h2>Actor to end</h2>
-            <form action="/game/actor" method="POST" class="search-form" id="end-actor-form">
+            <h2>Actor to end:</h2>
+            <input hidden type="text" id="end-actorId">
+            <div class="end-search-group">
+                {{!-- ------- --}}
+                {{!-- CHOSEN ACTOR WILL GO HERE --}}
                 <label for="name">Actor search:</label>
-                <input type="text" name="name" id="name">
-                <input hidden type="text" name="side" value="end">
-                <button type="submit">SEARCH</button>
-            </form>
-            <ul>
-            {{#each end}}
-            <li>
-                <a href="/game/gameId?endActorId={{id}}">
-                    <img src="{{image}}" alt="{{title}}-profile-picture">
-                    <h4>{{title}}</h4>
-                </a>
-            </li>
-            {{/each}}
-            </ul>
+                <input type="text" name="name" id="end-search-input" placeholder="Kevin Bacon">
+                <button id="end-search-button" class="search-button">SEARCH</button>
+                <ul id="end-search-results">
+                    {{!-- ------- --}}
+                    {{!-- SEARCH RESULTS GO HERE --}}
+                    {{!-- ------- --}}
+                </ul>
+                {{!-- ------- --}}
+            </div>
         </div>
     </div>
 </div>
