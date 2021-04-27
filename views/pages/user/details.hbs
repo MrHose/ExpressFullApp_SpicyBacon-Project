@@ -1,0 +1,9 @@
+<h1>User Profile</h1>
+{{#with theUser}}
+<hr>
+<h2>{{username}}</h2>
+<form action="/user/addfriend/{{id}}" method="POST">
+    <button type="submit" class="btn btn-dark">Add to Friends</button>
+</form>
+<hr>
+{{/with}}

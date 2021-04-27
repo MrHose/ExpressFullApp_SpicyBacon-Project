@@ -1,11 +1,19 @@
 const express = require('express')
 const router = express.Router()
+const { isLoggedIn } = require('./../middlewares')
 
 const IMDbApp = require('../services/api-handler')
 const IMDb = new IMDbApp
 
+//Endpoints
 //Search Actors
-router.post('/actor/', (req, res) => {
+
+router.get('/', isLoggedIn, (req, res) => {
+    res.render('pages/game/index')
+})
+
+
+router.post('/actor/', isLoggedIn, (req, res) => {
     const actorToSearch = req.body.name
     const side = req.body.side
     IMDb
@@ -30,7 +38,7 @@ const IMDbAPI_Key = process.env.IMDbAPI_Key
 const urlStart = 'https://imdb-api.com/en/API/'
 
 //Search Movies
-router.post('/movie', (req, res) => {
+router.post('/movie', isLoggedIn, (req, res) => {
     const movieToSearch = req.body.name
     const searchTerm = movieToSearch
     const action = 'SearchMovie'
@@ -40,7 +48,7 @@ router.post('/movie', (req, res) => {
 })
 
 //Get specific actor by ID
-router.post('/actor/byId', (req, res) => {
+router.post('/actor/byId', isLoggedIn, (req, res) => {
     const actorId = req.body.actorId
     const searchTerm = actorId
     const action = 'Name'
@@ -50,7 +58,7 @@ router.post('/actor/byId', (req, res) => {
 })
 
 //Get specific movie by ID
-router.post('/movie/byId/', (req, res) => {
+router.post('/movie/byId/', isLoggedIn, (req, res) => {
     const movieId = req.body.movieId
     const searchTerm = movieId
     const action = 'Title'
@@ -60,7 +68,7 @@ router.post('/movie/byId/', (req, res) => {
 })
 
 //Get specific movie fullcast by ID
-router.post('/movie/fullCast', (req, res) => {
+router.post('/movie/fullCast', isLoggedIn, (req, res) => {
     const movieId = req.body.movieId
     const searchTerm = movieId
     const action = 'FullCast'

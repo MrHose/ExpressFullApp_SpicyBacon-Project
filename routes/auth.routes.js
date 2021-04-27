@@ -9,11 +9,8 @@ const User = require('./../models/user.model')
 
 // Endpoints
 
-//User Profile (get)
-router.get('/profile', (req, res) => {
-    currentUser = req.session.currentUser
-    console.log(currentUser)
-    res.render('pages/auth/profile', currentUser)
+router.get('/', (req, res) => {
+    res.render('pages/auth/index')
 })
 
 // Signup form page (get)
@@ -70,7 +67,7 @@ router.post('/login', (req, res) => {
                 return
             }
             req.session.currentUser = user
-            res.redirect('/auth/profile')
+            res.redirect('/user')
         })
         .catch(err => console.log('error', err))
 })
