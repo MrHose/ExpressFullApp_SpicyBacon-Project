@@ -70,6 +70,6 @@ function createButton(scoreToBeat) {
   
   const beginButton = document.createElement('a')
   beginButton.setAttribute('href', `/game/begin?startActorId=${startActorId}&endActorId=${endActorId}&scoreToBeat=${scoreToBeat}`)
-  beginButton.innerHTML = `<button id="begin-button">Begin Game!</button>`
+  beginButton.innerHTML = `<button id="begin-button">Begin Game</button>`
   document.querySelector('#begin-button-space').innerHTML = beginButton.outerHTML
 }
