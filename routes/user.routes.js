@@ -1,4 +1,5 @@
 const express = require('express')
+const { isFriend } = require('../utils')
 const router = express.Router()
 const { isLoggedIn } = require('./../middlewares')
 const User = require('./../models/user.model')
@@ -11,11 +12,7 @@ router.get('/', isLoggedIn, (req, res) => {
     User
     .findById(currentUser._id)
     .populate('friends')
-    .then(currentUser => {
-        console.log(currentUser)
-        res.render('pages/user/profile', currentUser)
-       
-    })
+    .then(currentUser => res.render('pages/user/profile', currentUser)) 
     .catch(err => console.log('Error!', err))
 })
 
@@ -28,7 +25,7 @@ router.get('/allusers', isLoggedIn, (req, res) => {
             const otherUsers = allUsers.filter(elm => {
             return elm.id !== currentUser._id  
             })
-            res.render('pages/user/allusers', { otherUsers })
+            res.render('pages/user/allusers', { otherUsers,  })
         })
         .catch(err => console.log('Error!', err))
 })
@@ -40,7 +37,10 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
     if(id === currentUser._id) { res.redirect('/user/')}
     User
         .findById(id)
-        .then(theUser => res.render('pages/user/details', theUser))
+        .then(theUser => {
+            const result = isFriend()
+            res.render('pages/user/details', {theUser})
+        })
         .catch(err => console.log('Error!', err))
     
 })
