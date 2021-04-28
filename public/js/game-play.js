@@ -12,8 +12,8 @@ const setupMovieClick = () => {
 
 const setNewCurrentObject = movieId => {
     axios
-        //.get(`http://localhost:3000/game/fullcast/${movieId}`)
-        .get(`https://spicy-bacon-jw.herokuapp.com/game/fullcast/${movieId}`)
+        .get(`http://localhost:3000/game/fullcast/${movieId}`)
+        //.get(`https://spicy-bacon-jw.herokuapp.com/game/fullcast/${movieId}`)
         .then(response => {
             let cast = response.data
             //updateProgressBar(response)

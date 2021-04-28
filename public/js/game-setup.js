@@ -4,8 +4,8 @@ const addSearchFunctionality = side => {
             const actorToSearch = getActorToSearch(side)
             const searchResultsSpace = document.querySelector(`#${side}-search-results`)
             axios
-                //.get(`http://localhost:3000/game/actor/${actorToSearch}`)
-                .get(`https://spicy-bacon-jw.herokuapp.com/game/actor/${actorToSearch}`)
+                .get(`http://localhost:3000/game/actor/${actorToSearch}`)
+                //.get(`https://spicy-bacon-jw.herokuapp.com/game/actor/${actorToSearch}`)
                 .then(response => {
                     const {
                         data

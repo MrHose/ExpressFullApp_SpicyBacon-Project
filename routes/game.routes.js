@@ -27,8 +27,8 @@ router.get('/begin', (req, res) => {
         })
         .then(endResponse => {
             endActor = endResponse.data
-            //return axios.get(`http://localhost:3000/game/filmography/${startActor.id}`)
-            return axios.get(`https://spicy-bacon-jw.herokuapp.com/game/filmography/${startActor.id}`)
+            return axios.get(`http://localhost:3000/game/filmography/${startActor.id}`)
+            //return axios.get(`https://spicy-bacon-jw.herokuapp.com/game/filmography/${startActor.id}`)
         })
         .then(actorFound => {
             currentObject = actorFound.data
@@ -83,16 +83,6 @@ router.post('/movie/byId/', isLoggedIn, (req, res) => {
     const options = 'FullCast'
     const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
     res.redirect('fullUrl')
-})
-
-//Get specific movie fullcast by ID
-router.post('/movie/fullCast', isLoggedIn, (req, res) => {
-    const movieId = req.body.movieId
-    const searchTerm = movieId
-    const action = 'FullCast'
-    const options = ''
-    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
-    res.redirect(fullUrl)
 })
 
 module.exports = router

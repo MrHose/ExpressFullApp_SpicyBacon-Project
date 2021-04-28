@@ -13,5 +13,13 @@ window.addEventListener('load', () => {
 })
 
 const setRandomEndActor = () => {
-  document.querySelector('#end-search-input').setAttribute('placeholder', `randomActorName`)
+  if (!document.querySelector('#end-search-input')) { null }
+  else {
+    randomActorName = getRandomActor()
+    document.querySelector('#end-search-input').setAttribute('placeholder', `${randomActorName}`)
+  }
+}
+
+const getRandomActor = () => {
+  
 }

@@ -14,7 +14,7 @@ class IMDbApp {
     getActorById = actorId => this.api.get(`/Name/${IMDbAPI_Key}/${actorId}`)
     getMovieById = movieId => this.api.get(`/Title/${IMDbAPI_Key}/${movieId}`)
 
-    getFullCast = movieId => this.api.get(`/FullCast/${IMDbAPI_Key}/${movieId}`)
+    getMostPopularMovies = () => this.api.get(`/MostPopularMovies/${IMDbAPI_Key}`)
 }
 
 module.exports = IMDbApp

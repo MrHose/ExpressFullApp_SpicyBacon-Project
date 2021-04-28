@@ -46,6 +46,23 @@ router.get('/fullcast/:movieId', (req, res) => {
         .catch(err => res.json(err))
 })
 
+//Get a random actor
+router.get('/randomActor', (req, res) => {
+    IMDb
+        .getMostPopularMovies()
+        .then(movies => {
+            const moviesArray = movies.data.items
+            const crewArray = moviesArray.map(elm => {
+                crewString = elm.crew
+                singleActor = crewString.Split(',')
+                return singleActor
+            })
+            res.json(crewArray)
+        })
+        .catch(err => res.json(err))
+})
+
+
 module.exports = router
 
 
