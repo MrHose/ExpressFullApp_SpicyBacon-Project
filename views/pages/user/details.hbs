@@ -1,9 +1,9 @@
-<h1>User Profile</h1>
-{{#with theUser}}
+<h1>{{username}} Profile</h1>
 <hr>
-<h2>{{username}}</h2>
 <form action="/user/addfriend/{{id}}" method="POST">
     <button type="submit" class="btn btn-dark">Add to Friends</button>
 </form>
+<form action="/user/removefriend/{{id}}" method="POST">
+    <button type="submit" class="btn btn-dark">Remove this Friend</button>
+</form>
 <hr>
-{{/with}}
