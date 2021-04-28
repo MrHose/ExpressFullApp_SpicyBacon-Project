@@ -3,6 +3,7 @@ const router = express.Router()
 const { isLoggedIn } = require('./../middlewares')
 
 const IMDbApp = require('../services/api-handler')
+const { default: axios } = require('axios')
 const IMDb = new IMDbApp
 
 
@@ -17,6 +18,7 @@ router.get('/begin', (req, res) => {
     scoreToBeat = req.query.scoreToBeat
     let startActor = ''
     let endActor = ''
+    let currentObject = ''
     IMDb
         .getActorById(startActorId)
         .then(startResponse => {
@@ -25,14 +27,14 @@ router.get('/begin', (req, res) => {
         })
         .then(endResponse => {
             endActor = endResponse.data
-            res.render('pages/game/playArea', { startActor, endActor, scoreToBeat } )
+            return axios.get(`http://localhost:3000/game/filmography/${startActor.id}`)
+        })
+        .then(actorFound => {
+            currentObject = actorFound.data
+            res.render('pages/game/playArea', { startActor, endActor, scoreToBeat, currentObject } )
         })
         .catch(err => console.log(err))
 })
-
-
-
-
 
 const urlStart = 'https://imdb-api.com/en/API/'
 const IMDbAPI_Key = process.env.IMDbAPI_Key
