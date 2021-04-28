@@ -26,14 +26,14 @@ router.post('/signup', (req, res, next) => {
         .then(user => {
             //If a user already exists with that name
             if (user) {
-                res.render('pages/auth/signup', { errorMessage: 'Nombre de usuario ya registrado' })
+                res.render('pages/auth/signup', { errorMessage: 'Name Not Available' })
                 return
             }
             const salt = bcrypt.genSaltSync(bcryptSalt)
             const hashPass = bcrypt.hashSync(pwd, salt)
             User
                 .create({ username, password: hashPass })
-                .then(() => res.redirect('/'))
+                .then(() => res.render('pages/auth/login', { errorMessage: 'User Registered. Please Login' }))
                 .catch(err => {
                     if (err instanceof mongoose.Error.ValidationError) {
                         console.log(err.errors)
@@ -58,12 +58,12 @@ router.post('/login', (req, res) => {
         .then(user => {
             //If user doesnt exist
             if (!user) {
-                res.render('pages/auth/login', { errorMessage: 'Usuario no reconocido.' })
+                res.render('pages/auth/login', { errorMessage: 'User Not Recognized' })
                 return
             }
             //If password doesnt match
             if (bcrypt.compareSync(pwd, user.password) === false) {
-                res.render('pages/auth/login', { errorMessage: 'Contraseña incorrecta' })
+                res.render('pages/auth/login', { errorMessage: 'Incorrect Password' })
                 return
             }
             req.session.currentUser = user
@@ -75,7 +75,7 @@ router.post('/login', (req, res) => {
 //Close session button (get)
 router.get('/exit', (req, res) => {
     req.session.destroy((err) => {
-        res.redirect("/")
+        res.redirect("/auth/login")
     })
 })
 

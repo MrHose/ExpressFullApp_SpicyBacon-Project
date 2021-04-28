@@ -1,12 +1,20 @@
 <h1>Your Profile</h1>
-{{#with currentUser}}
 <h1>{{username}}</h1>
 <hr>
-{{/with}}
 <h3>List of Friends</h3>
 <ul>
     {{#each friends}}
     <li>{{username}}</li>
+    <a href="/user/details/{{id}}">View Profile</a>
     {{/each}}
+</ul>
+<hr>
+<h3>Completed Games</h3>
+<ul>
+    {{!-- {{#each history}}
+    <li>Nombre Actor Start</li>
+    <li>Nombre Actor End</li>
+    <li>{{score}}</li>
+    {{/history}} --}}
 </ul>
 <hr>
