@@ -4,7 +4,8 @@ const addSearchFunctionality = side => {
             const actorToSearch = getActorToSearch(side)
             const searchResultsSpace = document.querySelector(`#${side}-search-results`)
             axios
-                .get(`http://localhost:3000/game/actor/${actorToSearch}`)
+                //.get(`http://localhost:3000/game/actor/${actorToSearch}`)
+                .get(`https://spicy-bacon-jw.herokuapp.com/game/actor/${actorToSearch}`)
                 .then(response => {
                     const {
                         data
@@ -25,7 +26,12 @@ const getActorToSearch = side => {
     if (document.getElementById(`${side}-search-input`).value) {
         return document.getElementById(`${side}-search-input`).value
     } else {
-        return 'Kevin Bacon'
+        switch (side) {
+            case 'start':
+                return document.getElementById(`start-search-input`).getAttribute('placeholder')
+            case 'end':
+                return document.getElementById(`end-search-input`).getAttribute('placeholder')
+        }
     }
 }
 

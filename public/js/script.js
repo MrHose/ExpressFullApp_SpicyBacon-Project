@@ -1,5 +1,7 @@
 window.addEventListener('load', () => {
 
+  setRandomEndActor()
+
   //Search actors buttons
   addSearchFunctionality('start')
   addSearchFunctionality('end')
@@ -9,3 +11,7 @@ window.addEventListener('load', () => {
   setupMovieClick()
 
 })
+
+const setRandomEndActor = () => {
+  document.querySelector('#end-search-input').setAttribute('placeholder', `randomActorName`)
+}

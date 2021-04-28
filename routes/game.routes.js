@@ -27,7 +27,8 @@ router.get('/begin', (req, res) => {
         })
         .then(endResponse => {
             endActor = endResponse.data
-            return axios.get(`http://localhost:3000/game/filmography/${startActor.id}`)
+            //return axios.get(`http://localhost:3000/game/filmography/${startActor.id}`)
+            return axios.get(`https://spicy-bacon-jw.herokuapp.com/game/filmography/${startActor.id}`)
         })
         .then(actorFound => {
             currentObject = actorFound.data
