@@ -1,28 +1,88 @@
 <div class="container">
+
     <div id="progress-bar">
-        <div id="startActor">
-            {{#with startActor}}
-            <h1>0</h1>
-            <img src="{{image}}" alt="{{title}}-profile-pic">
-            <h5>{{name}}</h5>
-            {{/with}}
+
+        <div id="start">
+            <h1 id="currentScore-space">
+                0
+            </h1>
+
+            <div id="startActor-space">
+                {{#with startActor}}
+                <img src="{{image}}" alt="{{title}}-profile-pic">
+                <h5>{{name}}</h5>
+                <span hidden id="startActor-hidden-span">{{startActor}}</span>
+                {{/with}}
+            </div>
         </div>
 
-        <div id="endActor">
-            <h1>{{scoreToBeat}}</h1>
-            {{#with endActor}}
-            <img src="{{image}}" alt="{{title}}-profile-pic">
-            <h5>{{name}}</h5>
-            {{/with}}
+        <div id="end">
+            <h1 id="scoreToBeat-space">
+                {{scoreToBeat}}
+                <span hidden id="scoreToBeat-hidden-span">{{scoreToBeat}}</span>
+            </h1>
+
+            <div id="startActor-space">
+                {{#with endActor}}
+                <img src="{{image}}" alt="{{title}}-profile-pic">
+                <h5>{{name}}</h5>
+                <span hidden id="endActor-hidden-span">{{endActor}}</span>
+                {{/with}}
+            </div>
         </div>
+
     </div>
-    <div id="show-lists">
-        <ul>
-            {{#with startActor}}
-            {{#each castMovies}}
-            <li id="{{id}}"><a href="#"><span>| {{title}} </span></a></li>
-            {{/each}}
-            {{/with}}
-        </ul>
+
+    <div id="lists-space">
+
+        {{#with currentObject}}
+        <div id="movies-div" class="active">
+            <div id="main-div">
+                <h2 id="actorName-space">{{name}}</h2>
+                <h2>MAIN MOVIES</h2>
+                <ul id="main-list">
+                    {{#each mainTitles}}
+                    <li class="listed-movie-poster movie">
+                        <figure>
+                            <img src="{{image}}" alt="{{title}}-poster">
+                            <figcaption>{{title}}</figcaption>
+                        </figure>
+                        <input hidden type="text" value="{{id}}">
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+
+            <div id="all-div">
+                <h2>ALL MOVIES</h2>
+                <div id="all-list">
+                    {{#each allTitles}}
+                    <span class="listed-movie movie">
+                        <span>{{title}}</span> |
+                        <input hidden type="text" value="{{id}}">
+                    </span>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+        {{/with}}
+
+        <div id="cast-div" class="inactive">
+                <h2 id="movieTitle-space"></h2>
+                <h2>CAST</h2>
+                <ul id="cast-list">
+                    {{!-- CAST LIST ITEMS WILL GO HERE --}}
+                    <li class="listed-actor actor">
+                        <figure>
+                            <img src="" alt="">
+                            <figcaption></figcaption>
+                        </figure>
+                        <input hidden type="text" value="">
+                    </li>
+                </ul>
+        </div>
+
+
     </div>
+
 </div>
