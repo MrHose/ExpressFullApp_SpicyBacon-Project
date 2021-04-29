@@ -1,25 +1,34 @@
+const myAPIurl = 'http://localhost:3000'
+
 window.addEventListener('load', () => {
 
-  setRandomEndActor()
+  //PlayArea
+  if (document.querySelector('#progress-bar')) {
+    progressBar.setup()
+    setupMovieClick()
+  }
 
   //Search actors buttons
+  randomStartActor()
   addSearchFunctionality('start')
   addSearchFunctionality('end')
-
-  //PlayArea
-  //Click on a movie
-  setupMovieClick()
-
 })
 
-const setRandomEndActor = () => {
-  if (!document.querySelector('#end-search-input')) { null }
-  else {
-    randomActorName = getRandomActor()
-    document.querySelector('#end-search-input').setAttribute('placeholder', `${randomActorName}`)
-  }
+
+const randomStartActor = () => {
+  document.querySelector('#start-search-input') ? getAndSetRandomActor() : null
 }
 
-const getRandomActor = () => {
-  
+
+const getAndSetRandomActor = () => {
+  axios
+    .get(`${myAPIurl}/game/randomActor`)
+    .then(response => {
+      const randomNum = Math.floor(Math.random() * 100)
+      return response.data[randomNum]
+    })
+    .then(randomActor => {
+      document.querySelector('#start-search-input').setAttribute('placeholder', `${randomActor}`)
+    })
+    .catch(err => console.log(err))
 }

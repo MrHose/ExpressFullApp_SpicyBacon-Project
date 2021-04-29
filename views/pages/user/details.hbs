@@ -1,9 +1,15 @@
+{{#with theUser}}
 <h1>{{username}} Profile</h1>
+{{/with}}
 <hr>
+{{#unless result}}
 <form action="/user/addfriend/{{id}}" method="POST">
     <button type="submit" class="btn btn-dark">Add to Friends</button>
 </form>
+{{/unless}}
+{{#with result}}
 <form action="/user/removefriend/{{id}}" method="POST">
     <button type="submit" class="btn btn-dark">Remove this Friend</button>
 </form>
+{{/with}}
 <hr>
