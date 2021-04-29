@@ -6,11 +6,11 @@ const userSchema = new Schema({
     username: {
         type: String,
         unique: true,
-        required: true
+        required: [true, 'Username is mandatory']
     },
     password: {
         type: String,
-        required: true
+        required: [true, 'Password is mandatory']
     },
     friends: [{
         type: Schema.Types.ObjectId,

@@ -8,7 +8,12 @@ body {
 }
 
 #error {
-  color: red;
+  background-color: rgb(255, 90, 90);
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  width: 100%;
+  margin-top: 20px;
 }
 .searc-result-img{
   height: 75px;

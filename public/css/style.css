@@ -6,7 +6,12 @@ body {
   margin-bottom: 50px; }
 
 #error {
-  color: red; }
+  background-color: #ff5a5a;
+  color: white;
+  text-align: center;
+  padding: 10px 20px;
+  width: 100%;
+  margin-top: 20px; }
 
 .searc-result-img {
   height: 75px;

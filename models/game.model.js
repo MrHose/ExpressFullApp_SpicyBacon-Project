@@ -3,7 +3,10 @@ const mongoose = require("mongoose")
 const Schema = mongoose.Schema
 
 const gameSchema = new Schema({
-    score: Number,
+    score: {
+        type: Number,
+        max: [6, 'Too many attempts']
+    },
     startActorId: String,
     endActorId: String,
     completedBy: [{
