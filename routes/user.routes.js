@@ -25,6 +25,7 @@ router.get('/allusers', isLoggedIn, (req, res) => {
 
     User
         .find()
+        .select('username')
         .then(allUsers => {
             const otherUsers = allUsers.filter(elm => { return elm.id !== currentUser._id })
             res.render('pages/user/allusers', { otherUsers })
@@ -43,8 +44,8 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
     User
         .findById(id)
         .then(theUser => {
-            const result = isFriend()
-            res.render('pages/user/details', {theUser})
+            const result = isFriend(id, currentUser.friends)
+            res.render('pages/user/details', {theUser, result})
         })
         .catch(err => console.log('Error!', err))
     
@@ -69,6 +70,7 @@ router.post('/removeFriend/:id', isLoggedIn, (req, res) => {
         currentUser
     } = req.session
     const { id } = req.params
+
     User
    .findByIdAndUpdate({ _id: currentUser._id }, { $pull: { friends: id }})
    .then(() => res.redirect('/user/'))

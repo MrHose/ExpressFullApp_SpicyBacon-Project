@@ -1,10 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
-
+const { mongoValidation } = require('./../utils')
 const bcrypt = require("bcrypt")
 const bcryptSalt = 10
-
 const User = require('./../models/user.model')
 
 // Base
@@ -23,7 +21,8 @@ router.get('/signup', (req, res) => {
 router.post('/signup', (req, res, next) => {
 
     const { username, pwd } = req.body
-
+    
+    if(pwd){
     User
         .findOne({username})
         .then(user => {
@@ -31,20 +30,19 @@ router.post('/signup', (req, res, next) => {
                 res.render('pages/auth/signup', { errorMessage: 'Name Not Available' })
                 return
             }
+
+           
             const salt = bcrypt.genSaltSync(bcryptSalt)
             const hashPass = bcrypt.hashSync(pwd, salt)
+
             User
                 .create({ username, password: hashPass })
-                .then(() => res.render('pages/auth/login', { errorMessage: 'User Registered. Please Login' }))
-                .catch(err => {
-                    if (err instanceof mongoose.Error.ValidationError) {
-                        console.log(err.errors)
-                    } else {
-                        next()
-                    }
-                })
-        })
+                .then(() => res.render('pages/auth/login', { errorMessage: 'User registered successfully' }))
+                .catch(err => res.render('pages/auth/signup', { errorMessage: mongoValidation(err) }))
+            })
         .catch(err => console.log('error', err))
+
+    } else { res.render('pages/auth/signup', { errorMessage: 'Password Is Mandatory' }) }
 })
 
 
