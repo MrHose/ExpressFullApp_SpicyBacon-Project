@@ -1,37 +1,30 @@
 const addSearchFunctionality = side => {
     if (document.getElementById(`${side}-search-button`)) {
         document.getElementById(`${side}-search-button`).addEventListener('click', function (event) {
+
             const actorToSearch = getActorToSearch(side)
             const searchResultsSpace = document.querySelector(`#${side}-search-results`)
+
             axios
-                .get(`http://localhost:3000/game/actor/${actorToSearch}`)
-                //.get(`https://spicy-bacon-jw.herokuapp.com/game/actor/${actorToSearch}`)
+                .get(`${myAPIurl}/game/actor/${actorToSearch}`)
                 .then(response => {
-                    const {
-                        data
-                    } = response
+                    const { data } = response
                     let searchResults = ''
-                    data.forEach(elm => searchResults += constructSearchResult(elm, side))
+                    data.forEach(elm => searchResults += createSearchResult(elm, side))
                     searchResultsSpace.innerHTML = searchResults
                     addSearchResultFunctionality(side)
                 })
-                .catch(err => {
-                    console.log(err)
-                })
+                .catch(err => console.log(err))
         })
     }
 }
+
 
 const getActorToSearch = side => {
     if (document.getElementById(`${side}-search-input`).value) {
         return document.getElementById(`${side}-search-input`).value
     } else {
-        switch (side) {
-            case 'start':
-                return document.getElementById(`start-search-input`).getAttribute('placeholder')
-            case 'end':
-                return document.getElementById(`end-search-input`).getAttribute('placeholder')
-        }
+        return document.getElementById(`${side}-search-input`).getAttribute('placeholder')
     }
 }
 

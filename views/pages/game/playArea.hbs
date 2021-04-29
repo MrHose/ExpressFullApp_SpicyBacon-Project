@@ -3,30 +3,53 @@
     <div id="progress-bar">
 
         <div id="start">
-            <h1 id="currentScore-space">
+            <h1 id="currentScore-space" class="bar-icon">
                 0
             </h1>
 
-            <div id="startActor-space">
+            <div id="startActor-space" class="bar-icon actor-icon">
                 {{#with startActor}}
                 <img src="{{image}}" alt="{{title}}-profile-pic">
                 <h5>{{name}}</h5>
-                <span hidden id="startActor-hidden-span">{{startActor}}</span>
+                <span hidden id="startActor-hidden-span">{{id}}</span>
                 {{/with}}
             </div>
         </div>
 
+        <div id="bar" class="container">
+            <div id="movie-bar" class="row d-flex justify-content-between">
+                <div class="col-1 bar-icon"><img id="movie-icon-1" src="" alt=""></div>
+                <div class="col-1 bar-icon"><img id="movie-icon-2" src="" alt=""></div>
+                <div class="col-1 bar-icon"><img id="movie-icon-3" src="" alt=""></div>
+                <div class="col-1 bar-icon"><img id="movie-icon-4" src="" alt=""></div>
+                <div class="col-1 bar-icon"><img id="movie-icon-5" src="" alt=""></div>
+                <div class="col-1 bar-icon"><img id="movie-icon-6" src="" alt=""></div>
+                <div class="col-1 bar-icon"><img id="movie-icon-7" src="" alt=""></div>
+
+            </div>
+            <hr>
+            <div id="actor-bar" class="row d-flex justify-content-around">
+                <div class="col-2 bar-icon actor-icon"><img id="actor-icon-1" src="" alt=""></div>
+                <div class="col-2 bar-icon actor-icon"><img id="actor-icon-2" src="" alt=""></div>
+                <div class="col-2 bar-icon actor-icon"><img id="actor-icon-3" src="" alt=""></div>
+                <div class="col-2 bar-icon actor-icon"><img id="actor-icon-4" src="" alt=""></div>
+                <div class="col-2 bar-icon actor-icon"><img id="actor-icon-5" src="" alt=""></div>
+                <div class="col-2 bar-icon actor-icon"><img id="actor-icon-6" src="" alt=""></div>
+
+            </div>
+        </div>
+
         <div id="end">
-            <h1 id="scoreToBeat-space">
+            <h1 id="scoreToBeat-space" class="bar-icon">
                 {{scoreToBeat}}
                 <span hidden id="scoreToBeat-hidden-span">{{scoreToBeat}}</span>
             </h1>
 
-            <div id="startActor-space">
+            <div id="startActor-space" class="bar-icon actor-icon">
                 {{#with endActor}}
                 <img src="{{image}}" alt="{{title}}-profile-pic">
                 <h5>{{name}}</h5>
-                <span hidden id="endActor-hidden-span">{{endActor}}</span>
+                <span hidden id="endActor-hidden-span">{{id}}</span>
                 {{/with}}
             </div>
         </div>
@@ -34,18 +57,21 @@
     </div>
 
     <div id="lists-space">
-
+        {{!-- MOVIE LIST ITEMS WILL GO HERE --}}
+        {{!-- BOTTOM "with" WILL BE REPLACED --}}
         {{#with currentObject}}
         <div id="movies-div" class="active">
+
             <div id="main-div">
                 <h2 id="actorName-space">{{name}}</h2>
                 <h2>MAIN MOVIES</h2>
                 <ul id="main-list">
+
                     {{#each mainTitles}}
                     <li class="listed-movie-poster movie">
                         <figure>
                             <img src="{{image}}" alt="{{title}}-poster">
-                            <figcaption>{{title}}</figcaption>
+                            <figcaption><b><b>{{title}}</b></b></figcaption>
                         </figure>
                         <input hidden type="text" value="{{id}}">
                     </li>
@@ -56,9 +82,10 @@
             <div id="all-div">
                 <h2>ALL MOVIES</h2>
                 <div id="all-list">
+                    
                     {{#each allTitles}}
                     <span class="listed-movie movie">
-                        <span>{{title}}</span> |
+                        <span>{{title}} | </span>
                         <input hidden type="text" value="{{id}}">
                     </span>
                     {{/each}}
@@ -72,6 +99,7 @@
                 <h2>CAST</h2>
                 <ul id="cast-list">
                     {{!-- CAST LIST ITEMS WILL GO HERE --}}
+{{!-- 
                     <li class="listed-actor actor">
                         <figure>
                             <img src="" alt="">
@@ -79,10 +107,9 @@
                         </figure>
                         <input hidden type="text" value="">
                     </li>
+--}}
                 </ul>
         </div>
-
-
     </div>
 
 </div>

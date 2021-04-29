@@ -1,4 +1,4 @@
-const constructSearchResult = (searchResult, side) => {
+const createSearchResult = (searchResult, side) => {
     return (
         `<hr>
   <li class="search-result result-${side}">
@@ -25,7 +25,7 @@ const createListedActor = actor => {
     listedActorIMG.setAttribute('alt', `${actor.name}-profile-picture`)
 
     const listedActorFIGCAPTION = document.createElement('figcaption')
-    listedActorFIGCAPTION.innerText = actor.name
+    listedActorFIGCAPTION.innerHTML = `<b><b>${actor.name}</b></b></br><span>as ${actor.asCharacter}</span>`
 
     const listedActorFIGURE = document.createElement('figure')
     listedActorFIGURE.appendChild(listedActorIMG)
@@ -42,4 +42,46 @@ const createListedActor = actor => {
     listedActorLI.appendChild(listedActorINPUT)
 
     return listedActorLI
+}
+
+const createMainListedMovie = movie => {
+    const mainListedMovieIMG = document.createElement('img')
+    mainListedMovieIMG.setAttribute('src', movie.image)
+    mainListedMovieIMG.setAttribute('alt', `${movie.title}-poster`)
+
+    const mainListedMovieFIGCAPTION = document.createElement('figcaption')
+    mainListedMovieFIGCAPTION.innerHTML = `<b><b>${movie.title}</b></b>`
+
+    const mainListedMovieFIGURE = document.createElement('figure')
+    mainListedMovieFIGURE.appendChild(mainListedMovieIMG)
+    mainListedMovieFIGURE.appendChild(mainListedMovieFIGCAPTION)
+
+    const mainListedMovieINPUT = document.createElement('input')
+    mainListedMovieINPUT.hidden = true
+    mainListedMovieINPUT.setAttribute('type', 'text')
+    mainListedMovieINPUT.setAttribute('value', `${movie.id}`)
+
+    const mainListedMovieLI = document.createElement('li')
+    mainListedMovieLI.setAttribute('class', 'listed-movie-poster movie')
+    mainListedMovieLI.appendChild(mainListedMovieFIGURE)
+    mainListedMovieLI.appendChild(mainListedMovieINPUT)
+
+    return mainListedMovieLI
+}
+
+const createAllListedMovie = movie => {
+    const listedMovieSPAN = document.createElement('span')
+    listedMovieSPAN.innerText = `${movie.title} | `
+
+    const listedMovieINPUT = document.createElement('input')
+    listedMovieINPUT.hidden = true
+    listedMovieINPUT.setAttribute('type', 'text')
+    listedMovieINPUT.setAttribute('value', `${movie.id}`)
+
+    constlistedMovieSPANtotal = document.createElement('span')
+    constlistedMovieSPANtotal.setAttribute('class', 'listed-movie movie')
+    constlistedMovieSPANtotal.appendChild(listedMovieSPAN)
+    constlistedMovieSPANtotal.appendChild(listedMovieINPUT)
+
+    return constlistedMovieSPANtotal
 }
