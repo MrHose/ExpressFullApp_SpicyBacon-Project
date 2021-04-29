@@ -5,7 +5,7 @@ module.exports = {
             next()
         }
         else {
-            res.render('pages/auth/login', { errorMessage: 'You are not recognized' })
+            res.render('pages/auth/login', { errorMessage: 'You were not recognized.' })
         }
     }
 }
