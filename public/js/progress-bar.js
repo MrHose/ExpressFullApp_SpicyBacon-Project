@@ -86,16 +86,27 @@ const progressBar = {
         document.querySelector(`#movie-icon-${this.posterPos}`).setAttribute('src',`${poster}`)   
     },
 
-    addActorToBar(profilePic = 'https: //imdb-api.com/images/original/nopicture.jpg', fill) {
+    addActorToBar(profilePic = 'https: //imdb-api.com/images/original/nopicture.jpg', status) {
         this.profilePicPos++
-        if (!fill) {
-            document.querySelector(`#actor-icon-${this.profilePicPos}`).setAttribute('src', `${profilePic}`)
-        } else {
-            document.querySelectorAll('.actor-icon').forEach(elm => elm.style.backgroundColor = fill)
-            while (this.profilePicPos < 7) {
+        switch (status) {
+            case 'win':
+                document.querySelectorAll('.actor-icon').forEach(elm => elm.style.backgroundColor = 'green')
+                while (this.profilePicPos < 7) {
+                    document.querySelector(`#actor-icon-${this.profilePicPos}`).setAttribute('src', `${profilePic}`)
+                    this.profilePicPos++
+                }
+                break
+            case 'loss':
+                document.querySelectorAll('.actor-icon').forEach(elm => {
+                    elm.style.backgroundColor = 'red'
+                })
+                document.querySelectorAll('.actor-image-inbar').forEach(elm => {
+                    elm.setAttribute('src', `${profilePic}`)
+                })
+                break
+            default:
                 document.querySelector(`#actor-icon-${this.profilePicPos}`).setAttribute('src', `${profilePic}`)
-                this.profilePicPos++
-            }
+                break
         }
     },
 
@@ -109,7 +120,6 @@ const progressBar = {
     },
     
     endgameProtocol(state) {
-        let fill = ''
         
         let timelineNames = 'From'
         this.timeline.forEach(elm => timelineNames += ` ${elm.name} to`)
@@ -119,8 +129,7 @@ const progressBar = {
 
         switch (state) {
             case 'win':
-                fill = 'green'
-                this.addActorToBar('/img/kevin-goodjob.jpg', fill)
+                this.addActorToBar('/img/kevin-goodjob.jpg', state)
 
                 const gameObject = {
                     score: parseInt(this.currentScore, 10),
@@ -134,8 +143,7 @@ const progressBar = {
                 //win screen
                 break
             case 'loss':
-                fill = 'red'
-                this.addActorToBar('/img/kevin-gameover.jpg', fill)
+                this.addActorToBar('/img/kevin-gameover.jpg', state)
 
                 console.log('GAME OVER')
                 console.log(`${this.endActor.name} is not in ${this.currentMovie.title} and you've run out of moves.`)
