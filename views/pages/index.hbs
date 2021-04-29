@@ -1,12 +1,35 @@
 <div class="container">
-    <h1>Welcome to {{siteTitle}}</h1>
+    <h1 class="welcome">Welcome to {{siteTitle}}</h1>
     <hr>
-    <a href="/auth">User</a>
+    {{!-- <a href="/auth">User</a> --}}
+    <div class="introText">
+        <div class="icons">
+            <a href="/game"><img src="./../../img/play.png" alt="Game"></a>
+            <a class="play" href="/game">Game</a>
+        </div>
+
+        <p>Six Degrees of Kevin Bacon represent this game where players challenge each other to
+            arbitrarily
+            choose an
+            actor and then connect them to another actor via a film that both actors have appeared in together,
+            repeating
+            this
+            process to try and find the shortest path. It rests on the
+            assumption that anyone involved in the Hollywood film industry can be linked through their film roles to
+            Bacon
+            within
+            six steps</p>
+        <div class="icons">
+            <a href="/user/allusers"><img src="./../../img/community.png" alt="Community"></a>
+            <a href="/user/allusers">Community</a>
+        </div>
+
+    </div>
 
     <hr>
-    <a href="/game">Game</a>
 
     <hr>
-    <a href="/user/allusers">Community</a>
+
+    <a href="/game/go">gameover</a>
 
 </div>
