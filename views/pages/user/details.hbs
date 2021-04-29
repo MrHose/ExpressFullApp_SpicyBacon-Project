@@ -1,15 +1,37 @@
-{{#with theUser}}
-<h1>{{username}} Profile</h1>
-{{/with}}
+<h1>{{userForDetails.username}} Profile</h1>
 <hr>
-{{#unless result}}
-<form action="/user/addfriend/{{id}}" method="POST">
-    <button type="submit" class="btn btn-dark">Add to Friends</button>
-</form>
-{{/unless}}
-{{#with result}}
-<form action="/user/removefriend/{{id}}" method="POST">
-    <button type="submit" class="btn btn-dark">Remove this Friend</button>
-</form>
-{{/with}}
-<hr>
+<div class="container">
+    <div class="row d-flex justify-content-around">
+
+        <div class="col-6">
+            {{#if result}}
+            <form action="/user/removefriend/{{userForDetails.id}}" method="POST">
+                <button type="submit" class="btn btn-dark">Remove this Friend</button>
+            </form>
+            {{/if}}
+
+            {{#unless result}}
+            <form action="/user/addfriend/{{userForDetails.id}}" method="POST">
+                <button type="submit" class="btn btn-dark">Add to Friends</button>
+            </form>
+            {{/unless}}
+        </div>
+
+        <div class="col-6">
+            {{#if result}}
+            <h3>Your games:</h3>
+            <form action="/user/challenge/{{userForDetails.id}}" method="POST">
+            <select name="game" id="game">
+                {{#with nowUser}}
+                {{#each history}}
+                <option value="{{id}}"> {{startActorId}} to {{endActorId}} in {{score}} steps. </option>
+                {{/each}}
+                {{/with}}
+            </select>
+            <button type="submit">Challenge {{userForDetails.username}}!</button>
+            </form>
+            {{/if}}
+        </div>
+
+    </div>
+</div>

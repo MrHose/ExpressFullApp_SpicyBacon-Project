@@ -2,14 +2,18 @@
 // const scoreToBeat = scoreToBeatSpace.innerText
 
 const progressBar = {
-    timeline: [],
+    
     startActor: undefined,
     endActor: undefined,
-
+    
     currentActor: undefined,
     currentMovie: undefined,
-
+    
     currentScore: undefined,
+    maxScore: undefined,
+
+    timeline: [],
+    timelineNames: '',
 
     posterPos: 0,
     profilePicPos: 0,
@@ -21,6 +25,7 @@ const progressBar = {
 
     setup() {
         this.currentScore = parseInt(document.querySelector('#currentScore-space').innerText, 10)
+        this.maxScore = parseInt(document.querySelector('#scoreToBeat-space').innerText, 10)
         this.setStartActor()
         this.setEndActor()
     },
@@ -62,7 +67,7 @@ const progressBar = {
             case 'movie':
                 this.addMovieToBar(object.image)
                 this.currentMovie = object
-                if ((!(this.isEndActorHere())) && (this.currentScore + 1 > 6)) {
+                if ((!(this.isEndActorHere())) && (this.currentScore + 1 > this.maxScore)) {
                     this.endgameProtocol('loss')
                 }
                 break
@@ -91,7 +96,7 @@ const progressBar = {
         switch (status) {
             case 'win':
                 document.querySelectorAll('.actor-icon').forEach(elm => elm.style.backgroundColor = 'green')
-                while (this.profilePicPos < 7) {
+                while (this.profilePicPos < (this.maxScore + 1)) {
                     document.querySelector(`#actor-icon-${this.profilePicPos}`).setAttribute('src', `${profilePic}`)
                     this.profilePicPos++
                 }
@@ -120,35 +125,56 @@ const progressBar = {
     },
     
     endgameProtocol(state) {
-        
-        let timelineNames = 'From'
-        this.timeline.forEach(elm => timelineNames += ` ${elm.name} to`)
+
+        this.timeline.forEach(elm => this.timelineNames += ` ${elm.name} to`)
         
         this.pushToTimeline(this.endActor)
-        timelineNames += ` ${this.timeline[this.timeline.length-1].name}`
+        this.timelineNames += ` ${this.timeline[this.timeline.length - 1].name}`
+        
+        const gameObject = {
+            score: parseInt(this.currentScore, 10),
+            startActorId: this.startActor.id,
+            endActorId: this.endActor.id,
+        }
 
-        switch (state) {
+        switch (state) { 
             case 'win':
                 this.addActorToBar('/img/kevin-goodjob.jpg', state)
-
-                const gameObject = {
-                    score: parseInt(this.currentScore, 10),
-                    startActorId: this.startActor.id,
-                    endActorId: this.endActor.id,
-                }
-                console.log('YOU WIN')
-                console.log(`You went from ${this.startActor.name} to ${this.endActor.name} in ${this.currentScore} steps!`)
-                console.log(`Timeline: ${timelineNames}.`)
-                console.log(gameObject)
-                //win screen
+                this.printWinScreen(gameObject)
                 break
             case 'loss':
                 this.addActorToBar('/img/kevin-gameover.jpg', state)
-
-                console.log('GAME OVER')
-                console.log(`${this.endActor.name} is not in ${this.currentMovie.title} and you've run out of moves.`)
-                //gameover screen
+                this.printGameOver(gameObject)
                 break
         }
+    },
+
+    printGameOver(game) {
+
+        const { startActorId, endActorId } = game
+        const scoreToBeat = game.score
+        const gameRestartUrl = `/game/begin?startActorId=${startActorId}&endActorId=${endActorId}&scoreToBeat=${scoreToBeat}`
+
+        document.querySelector('#lists-space').setAttribute('id', 'gameOver-screen')
+        document.querySelector('#gameOver-screen').innerHTML = `
+            <div class="gameOver-buttons">
+            <a href="${gameRestartUrl}">
+            <button class = "btn btn-dark"> Try Again... </button>
+            </a>
+            <span> ${this.endActor.name} is not in ${this.currentMovie.title} and you've run out of moves.</span>
+            <a href="/"> Go Back Home </a>
+            </div>
+            `
+    },
+
+    printWinScreen(game) {
+
+        const { startActorId, endActorId, score } = game
+
+        document.querySelector('#lists-space').setAttribute('id', 'winScreen')
+        document.querySelector('#winScreen').innerHTML = `
+            <span>You went ${this.timelineNames} in ${this.currentScore} steps!</span>
+            <a href="/game/save?startActorId=${startActorId}&endActorId=${endActorId}&score=${score}"><button>Save and go home</button></a>
+            `
     }
 }

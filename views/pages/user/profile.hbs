@@ -1,20 +1,57 @@
-<h1>Your Profile</h1>
-<h1>{{username}}</h1>
-<hr>
-<h3>List of Friends</h3>
-<ul>
-    {{#each friends}}
-    <li>{{username}}</li>
-    <a href="/user/details/{{id}}">View Profile</a>
-    {{/each}}
-</ul>
-<hr>
-<h3>Completed Games</h3>
-<ul>
-    {{!-- {{#each history}}
-    <li>Nombre Actor Start</li>
-    <li>Nombre Actor End</li>
-    <li>{{score}}</li>
-    {{/history}} --}}
-</ul>
-<hr>
+<div class="container">
+    <h1>Profile</h1>
+    <h1>username: <b>{{username}}</b></h1>
+    <hr>
+    <div class="row">
+
+        <div class="col-4">
+            <h3>Friends:</h3>
+            <hr>
+            <ul>
+                {{#each friends}}
+                <li>{{username}}
+                    <a href="/user/details/{{id}}">View Profile</a>
+                    <hr>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+
+        
+        <div class="col-4">
+            <h3>Games history:</h3>
+            <hr>
+            <ul>
+                {{#each history}}
+                <li>
+                    <span>{{startActorId}} to</span>
+                    <span>{{endActorId}} in</span>
+                    <span>{{score}} steps</span>
+                    <hr>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+
+        <div class="col-4">
+            <h3>Challenges:</h3>
+            <hr>
+            <ul>
+                {{#each challenges}}
+                <li>
+                    <span><h3>{{from.username}}</h3> challenged you to:</span>
+                    <a href="/game/begin?startActorId={{game.startActorId}}&endActorId={{game.endActorId}}&scoreToBeat={{game.score}}">
+                        <button>
+                            Go from {{game.startActorId}} to <br>
+                            {{game.endActorId}} in <br>
+                            <b>{{game.score}}</b> steps!
+                        </button>
+                    </a>
+                    <hr>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+
+    </div>
+</div>

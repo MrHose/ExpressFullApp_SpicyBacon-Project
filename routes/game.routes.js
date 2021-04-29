@@ -6,6 +6,8 @@ const IMDbApp = require('../services/api-handler')
 const { default: axios } = require('axios')
 const IMDb = new IMDbApp
 
+const User = require('./../models/user.model')
+const Game = require('./../models/game.model')
 
 //Game preparation
 router.get('/', isLoggedIn, (req, res) => {
@@ -38,55 +40,26 @@ router.get('/begin', (req, res) => {
         .catch(err => console.log(err))
 })
 
+//Save won game
+router.get('/save', (req, res) => {
+    const { startActorId, endActorId} = req.query
+    const score = parseInt(req.query.score, 10)
 
+    const completedBy = req.session.currentUser._id
 
-//Testing-----------
-const urlStart = 'https://imdb-api.com/en/API/'
-const IMDbAPI_Key = process.env.IMDbAPI_Key
-router.get('/test', (req, res) => {
-    res.render('pages/game/test')
-})
-//Search Actors
-router.post('/actor', isLoggedIn, (req, res) => {
-    const actorToSearch = req.body.name
-    const searchTerm = actorToSearch
-    const action = 'SearchName'
-    const options = ''
-    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
-    res.redirect(fullUrl)
-})
-//Search Movies
-router.post('/movie', isLoggedIn, (req, res) => {
-    const movieToSearch = req.body.name
-    const searchTerm = movieToSearch
-    const action = 'SearchMovie'
-    const options = ''
-    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
-    res.redirect(fullUrl)
-})
-//Get specific actor by ID
-router.post('/actor/byId', isLoggedIn, (req, res) => {
-    const actorId = req.body.actorId
-    const searchTerm = actorId
-    const action = 'Name'
-    const options = ''
-    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
-    res.redirect(fullUrl)
-})
-//Get specific movie by ID
-router.post('/movie/byId/', isLoggedIn, (req, res) => {
-    const movieId = req.body.movieId
-    const searchTerm = movieId
-    const action = 'Title'
-    const options = 'FullCast'
-    const fullUrl = `${urlStart}${action}/${IMDbAPI_Key}/${searchTerm}/${options}`
-    res.redirect('fullUrl')
-})
-//Testing END----------
+    const createdGame = ''
 
-
-router.get('/go', (req, res) => {
-    res.render('pages/game/gameOver')
+    Game
+        .create({ startActorId, endActorId, score, completedBy })
+        .then(response => {
+            const { id } = response
+            return User.findByIdAndUpdate(completedBy, { $push: { history: id }})
+        })
+        .then(updatedUser => {
+            res.redirect('/user/')
+        })
+        .catch(err => console.log(err))
 })
+
 
 module.exports = router

@@ -1,7 +1,9 @@
 const express = require('express')
-const { isFriend } = require('../utils')
 const router = express.Router()
+
+const { isFriend } = require('../utils')
 const { isLoggedIn } = require('./../middlewares')
+
 const User = require('./../models/user.model')
 
 
@@ -13,7 +15,10 @@ router.get('/', isLoggedIn, (req, res) => {
     User
         .findById(currentUser._id)
         .populate('friends')
-        .then(currentUser => res.render('pages/user/profile', currentUser)) 
+        .populate('history')
+        .populate('challenges.from')
+        .populate('challenges.game')
+        .then(currentUser => res.render('pages/user/profile', currentUser))
         .catch(err => console.log('Error!', err))
 })
 
@@ -39,13 +44,19 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
 
     const { currentUser } = req.session
     const { id } = req.params
+    let userForDetails = ''
 
-    if(id === currentUser._id) { res.redirect('/user/')}
+    if (id === currentUser._id) { res.redirect('/user/') }
+    
     User
         .findById(id)
         .then(theUser => {
-            const result = isFriend(id, currentUser.friends)
-            res.render('pages/user/details', {theUser, result})
+            userForDetails = theUser
+            return User.findById(currentUser._id).populate('history')
+        })
+        .then(nowUser => {
+            const result = isFriend(id, nowUser.friends)
+            res.render('pages/user/details', {userForDetails, result, nowUser})
         })
         .catch(err => console.log('Error!', err))
     
@@ -54,29 +65,47 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
 //Add to Friends (post)
 router.post('/addFriend/:id', isLoggedIn, (req, res) => {
 
-    const { currentUser } = req.session
     const { id } = req.params
+    const { currentUser } = req.session
 
     User
         .findByIdAndUpdate({ _id: currentUser._id }, { $push: { friends: id }})
-        .then(() => res.redirect('/user/allUsers'))
+        .then(() => res.redirect(`/user/details/${id}`))
         .catch(err => console.log('Error!', err))     
 })
 
 
 //Remove a Friend (post)
 router.post('/removeFriend/:id', isLoggedIn, (req, res) => {
-    const {
-        currentUser
-    } = req.session
+
+    const { currentUser} = req.session
     const { id } = req.params
 
     User
-   .findByIdAndUpdate({ _id: currentUser._id }, { $pull: { friends: id }})
-   .then(() => res.redirect('/user/'))
-   .catch(err => console.log('Error!', err))     
-    
-    
+        .findByIdAndUpdate({ _id: currentUser._id }, { $pull: { friends: id }})
+        .then(() => res.redirect(`/user/details/${id}`))
+        .catch(err => console.log('Error!', err))     
 })
+
+
+//Challenge a friend (post)
+router.post('/challenge/:userId', (req, res) => {
+
+    const { userId } = req.params
+    const { game } = req.body
+    const { currentUser } = req.session
+    const challenge = {
+        from: currentUser._id,
+        game
+    }
+
+    User
+        .findByIdAndUpdate(userId, { $push: { challenges: challenge }})
+        .then(updatedUser => {
+            res.redirect(`/user/details/${userId}`)
+        })
+        .catch(err => console.log('Error!', err))
+})
+
 
 module.exports = router

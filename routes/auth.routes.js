@@ -31,13 +31,12 @@ router.post('/signup', (req, res, next) => {
                 return
             }
 
-           
             const salt = bcrypt.genSaltSync(bcryptSalt)
             const hashPass = bcrypt.hashSync(pwd, salt)
 
             User
                 .create({ username, password: hashPass })
-                .then(() => res.render('pages/auth/login', { errorMessage: 'User registered successfully' }))
+                .then(() => res.render('pages/auth/login', { errorMessage: 'User registered successfully.' }))
                 .catch(err => res.render('pages/auth/signup', { errorMessage: mongoValidation(err) }))
             })
         .catch(err => console.log('error', err))
