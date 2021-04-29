@@ -1,6 +1,6 @@
 body {
-  font-family: sans-serif;
-  font-weight: 200;
+  font-family: 'Roboto Slab', serif;
+  font-weight: 300;
 }
 
 .navbar {
@@ -92,7 +92,68 @@ body {
   max-width: 150px;
 }
 
+.welcome {
+  margin-left: 30%;
+}
 
+.play{
+  margin-left: 15px;
+}
+
+.introText {
+  display: flex;
+  justify-content: space-between;
+  height: 460px;
+  background: url(./../img/clapper.png) no-repeat center;
+  background-size: 434px;
+  
+}
+
+.introText p {
+  font-weight: 600;
+  width: 36%;
+  font-size: 18px;
+  padding-top: 90px;
+  margin-left: 20px;
+}
+
+.icons {
+  display: flex;
+  flex-direction: column;
+}
+
+.icons img {
+  width: 80px;
+  height: 80px;
+}
+
+#gameOver {
+   background: url('./../img/gameOverBg.jpg') no-repeat center center fixed;
+   -webkit-background-size: cover;
+   -moz-background-size: cover;
+   -o-background-size: cover;
+   background-size: cover;
+}
+
+.gameOver {
+  width: 12%;
+  margin-left: 45%;
+  margin-top: 0%;
+  padding: 0;
+}
+
+.goBtt {
+  margin-top: 22%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+}
+
+.goBtt a {
+  color: white;
+  margin-top: 5px;
+}
 
 
 

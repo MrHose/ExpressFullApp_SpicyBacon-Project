@@ -85,4 +85,8 @@ router.post('/movie/byId/', isLoggedIn, (req, res) => {
     res.redirect('fullUrl')
 })
 
+router.get('/go', (req, res) => {
+    res.render('pages/game/gameOver')
+})
+
 module.exports = router
