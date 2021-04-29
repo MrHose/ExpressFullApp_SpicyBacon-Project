@@ -1,17 +1,15 @@
-# ExpressJS server boilerplate
-
-<img src="https://buttercms.com/static/images/tech_banners/webp/ExpressJS.b7bdb4190ea4.webp" alt="ExpressJS" width="500"/>
+# Spicy-Bacon Game and Social Media Platform
 
 <hr>
 
-ExpressJS backend boilerplate including:
+Created using the ExpressJS backend boilerplate as a base, which includes:
 - **Views Template**: Handlebars
 - **CSS Engine**: SCSS - Node-sass-middleware
 - **ODM**: Mongoose
 - **UI Framework**: Bootstrap 
 
 
-Prepopulated with Express middlewares:
+Express middlewares:
 - **Logger**: morgan
 - **HTTP POST Params**: body-parser
 - **Cookies**: cookie-parser

@@ -12,7 +12,7 @@ class IMDbApp {
     searchMovies = movieToSearch => this.api.get(`/SearchMovie/${IMDbAPI_Key}/${movieToSearch}`)
 
     getActorById = actorId => this.api.get(`/Name/${IMDbAPI_Key}/${actorId}`)
-    getMovieById = movieId => this.api.get(`/Title/${IMDbAPI_Key}/${movieId}`)
+    getMovieById = movieId => this.api.get(`/Title/${IMDbAPI_Key}/${movieId}/FullCast`)
 
     getMostPopularMovies = () => this.api.get(`/MostPopularMovies/${IMDbAPI_Key}`)
 }

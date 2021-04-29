@@ -15,20 +15,17 @@ body {
   width: 100%;
   margin-top: 20px;
 }
+
 .searc-result-img{
-  height: 75px;
+  height: 200px;
   width: auto;
+  max-width: 200px;
 }
 
 .search-result{
   cursor: pointer;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-}
-
-#progress-bar{
-  display: flex;
   justify-content: space-between;
 }
 
@@ -55,6 +52,7 @@ body {
   display: flex;
   justify-content: space-evenly;
   list-style: none;
+  flex-direction: row;
 }
 
 .listed-movie-poster figure, .listed-actor figure{
@@ -71,7 +69,7 @@ body {
 .listed-movie span{
   size: 2em;
   font-weight: 800;
-  padding: 10px;
+  padding: 0 10px;
 }
 
 #cast-list{
@@ -147,6 +145,22 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+#progress-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bar-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.bar-icon h5{
+  text-align: center;
+}
+
+.green-background
 
 }
 
@@ -163,5 +177,5 @@ body {
 }
 
 .inactive{
-  display: none;
+  display: none !important;
 }
