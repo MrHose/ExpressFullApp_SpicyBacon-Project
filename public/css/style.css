@@ -1,3 +1,4 @@
+@charset "UTF-8";
 body {
   font-family: 'Roboto Slab', serif;
   font-weight: 300; }
@@ -133,10 +134,23 @@ body {
   color: white;
   margin-top: 5px; }
 
+​#span-black {
+  background-color: black; }
+
 #winScreen {
+  font-family: 'Roboto Slab', serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 30px;
+  font-weight: 300;
+  color: white;
   background: url("./../img/winscreen.jpg") no-repeat center center fixed;
   background-size: cover;
   height: 700px; }
+
+​ #winscreen-img {
+  width: 20px; }
 
 .active {
   display: block; }

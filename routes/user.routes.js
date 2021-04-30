@@ -1,7 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const { isFriend } = require('../utils')
+const { checkFriendship } = require('../utils')
+const { getActorName } = require('../utils')
+
 const { isLoggedIn } = require('./../middlewares')
 
 const User = require('./../models/user.model')
@@ -18,7 +20,28 @@ router.get('/', isLoggedIn, (req, res) => {
         .populate('history')
         .populate('challenges.from')
         .populate('challenges.game')
-        .then(currentUser => res.render('pages/user/profile', currentUser))
+        .then(currentUser => {
+            
+            const promisesArr = []
+
+            currentUser.history.forEach(elm => promisesArr.push(getActorName(elm.startActorId), getActorName(elm.endActorId)))
+
+            Promise
+                .all(promisesArr)
+                .then(response => {
+
+                    const allNames = response.map(elm => {
+                        return elm.data.name
+                    })
+                    const startActorNames = allNames.filter(elm => (allNames.indexOf(elm) % 2) === 0)
+                    const endActorNames = allNames.filter(elm => (allNames.indexOf(elm) % 2) > 0)
+                    currentUser.history.forEach((elm, index) => {
+                        elm.startActorId = startActorNames[index]
+                        elm.endActorId = endActorNames[index]
+                    })
+                    res.render('pages/user/profile', currentUser)
+                })
+        })
         .catch(err => console.log('Error!', err))
 })
 
@@ -45,6 +68,8 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
     const { currentUser } = req.session
     const { id } = req.params
     let userForDetails = ''
+    let isFriend = ''
+    let nowUser = ''
 
     if (id === currentUser._id) { res.redirect('/user/') }
     
@@ -54,12 +79,33 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
             userForDetails = theUser
             return User.findById(currentUser._id).populate('history')
         })
-        .then(nowUser => {
-            const result = isFriend(id, nowUser.friends)
-            res.render('pages/user/details', {userForDetails, result, nowUser})
+        .then(foundUser => {
+            nowUser = foundUser
+            isFriend = checkFriendship(id, nowUser.friends)
+
+            const promisesArr = []
+
+            nowUser.history.forEach(elm => promisesArr.push(getActorName(elm.startActorId), getActorName(elm.endActorId)))
+
+            Promise
+                .all(promisesArr)
+                .then(response => {
+
+                    const allNames = response.map(elm => {
+                        return elm.data.name
+                    })
+                    const startActorNames = allNames.filter(elm => (allNames.indexOf(elm) % 2) === 0)
+                    const endActorNames = allNames.filter(elm => (allNames.indexOf(elm) % 2) > 0)
+                    nowUser.history.forEach((elm, index) => {
+                        elm.startActorId = startActorNames[index]
+                        elm.endActorId = endActorNames[index]
+                    })
+
+                    res.render('pages/user/details', { userForDetails, isFriend, nowUser })
+                })
+
         })
         .catch(err => console.log('Error!', err))
-    
 })
 
 //Add to Friends (post)

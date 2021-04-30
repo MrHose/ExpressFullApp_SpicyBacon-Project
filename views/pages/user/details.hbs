@@ -4,13 +4,13 @@
     <div class="row d-flex justify-content-around">
 
         <div class="col-6">
-            {{#if result}}
+            {{#if isFriend}}
             <form action="/user/removefriend/{{userForDetails.id}}" method="POST">
                 <button type="submit" class="btn btn-dark">Remove this Friend</button>
             </form>
             {{/if}}
 
-            {{#unless result}}
+            {{#unless isFriend}}
             <form action="/user/addfriend/{{userForDetails.id}}" method="POST">
                 <button type="submit" class="btn btn-dark">Add to Friends</button>
             </form>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="col-6">
-            {{#if result}}
+            {{#if isFriend}}
             <h3>Your games:</h3>
             <form action="/user/challenge/{{userForDetails.id}}" method="POST">
             <select name="game" id="game">

@@ -1,4 +1,5 @@
-const myAPIurl = 'http://localhost:3000'
+//const myAPIurl = 'http://localhost:3000'
+const myAPIurl = 'https://spicy-bacon-jw.herokuapp.com/'
 
 window.addEventListener('load', () => {
 
