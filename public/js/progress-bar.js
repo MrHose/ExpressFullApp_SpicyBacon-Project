@@ -172,8 +172,18 @@ const progressBar = {
         const { startActorId, endActorId, score } = game
 
         document.querySelector('#lists-space').setAttribute('id', 'winScreen')
-        document.querySelector('#winScreen').innerHTML = `<span id="span-black">You went from ${this.timelineNames} in ${this.currentScore} steps!</span>
-            <a href="/game/save?startActorId=${startActorId}&endActorId=${endActorId}&score=${score}"><button>Save and go home</button></a>
+        document.querySelector('#winScreen').innerHTML = `
+            <div class="winScreen-things">
+            <span>
+            CONGRATULATIONS!!! </br>
+            You went from ${this.timelineNames} in ${this.currentScore} steps!
+            </span>
+            <a href="/game/save?startActorId=${startActorId}&endActorId=${endActorId}&score=${score}">
+            <button>
+            Save and go home
+            </button>
+            </a>
+            </div>
             `
     }
 }

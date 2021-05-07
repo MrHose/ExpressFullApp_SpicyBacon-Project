@@ -134,23 +134,31 @@ body {
   color: white;
   margin-top: 5px; }
 
-​#span-black {
-  background-color: black; }
-
 #winScreen {
-  font-family: 'Roboto Slab', serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 30px;
-  font-weight: 300;
-  color: white;
   background: url("./../img/winscreen.jpg") no-repeat center center fixed;
   background-size: cover;
-  height: 700px; }
+  height: 700px;
+  font-size: 30px;
+  font-weight: 300;
+  font-family: 'Roboto Slab', serif;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center; }
 
-​ #winscreen-img {
-  width: 20px; }
+​.winImage {
+  width: 20px;
+  height: auto; }
+
+.winScreen-things {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
+.winScreen-things span {
+  background-color: black;
+  margin: 20px 0;
+  text-align: center; }
 
 .active {
   display: block; }

@@ -26,6 +26,10 @@ router.get('/', isLoggedIn, (req, res) => {
 
             currentUser.history.forEach(elm => promisesArr.push(getActorName(elm.startActorId), getActorName(elm.endActorId)))
 
+            const promisesArr2 = []
+
+            currentUser.challenges.forEach(elm => promisesArr2.push(getActorName(elm.game.startActorId), getActorName(elm.game.endActorId)))
+
             Promise
                 .all(promisesArr)
                 .then(response => {
@@ -39,8 +43,24 @@ router.get('/', isLoggedIn, (req, res) => {
                         elm.startActorId = startActorNames[index]
                         elm.endActorId = endActorNames[index]
                     })
+                    return Promise.all(promisesArr2)
+                })
+                .then(response2 => {
+
+                    const allNames2 = response2.map(elm => {
+                        return elm.data.name
+                    })
+                    const startActorNames2 = allNames2.filter(elm => (allNames2.indexOf(elm) % 2) === 0)
+                    const endActorNames2 = allNames2.filter(elm => (allNames2.indexOf(elm) % 2) > 0)
+                    currentUser.challenges.forEach((elm, index) => {
+                        elm.game.startActorId = startActorNames2[index]
+                        elm.game.endActorId = endActorNames2[index]
+                    })
+                    
+                    currentUser.challenges.reverse()
                     res.render('pages/user/profile', currentUser)
                 })
+                .catch(err => console.log('Error!', err))
         })
         .catch(err => console.log('Error!', err))
 })
@@ -94,15 +114,16 @@ router.get('/details/:id', isLoggedIn, (req, res) => {
                     const allNames = response.map(elm => {
                         return elm.data.name
                     })
-                    const startActorNames = allNames.filter(elm => (allNames.indexOf(elm) % 2) === 0)
-                    const endActorNames = allNames.filter(elm => (allNames.indexOf(elm) % 2) > 0)
+                    const startActorNames = allNames.filter((elm, index) => (index % 2) === 0)
+                    const endActorNames = allNames.filter((elm, index) => (index % 2) > 0)
                     nowUser.history.forEach((elm, index) => {
                         elm.startActorId = startActorNames[index]
                         elm.endActorId = endActorNames[index]
                     })
-
+                    
                     res.render('pages/user/details', { userForDetails, isFriend, nowUser })
                 })
+                .catch(err => console.log('Error!', err))
 
         })
         .catch(err => console.log('Error!', err))
